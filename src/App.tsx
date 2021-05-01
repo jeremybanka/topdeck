@@ -1,11 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import { jsx, css } from "@emotion/react"
+import { css } from "@emotion/react"
 
-import React, { ReactElement } from "react"
-import {
-  Deck as _Deck,
-  Card as _Card,
-} from "../node_modules/topdeck/src/topdeck"
+import { ReactElement } from "react"
+import { Deck as _Deck, Card as _Card } from "./lab/topdeck/src/topdeck"
 
 import "./App.css"
 
