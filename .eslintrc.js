@@ -147,7 +147,6 @@ module.exports = {
 
     // Begin Plugin rules
     "prettier/prettier": [`error`],
-    "@emotion/jsx-import": `error`,
     "@emotion/pkg-renaming": `error`,
 
     // Begin React rules
@@ -157,7 +156,7 @@ module.exports = {
       { checkAttributes: true, indentLogicalExpressions: true },
     ],
     "react/destructuring-assignment": `off`,
-    "react/react-in-jsx-scope": `error`,
+    "react/react-in-jsx-scope": `off`,
     "react/jsx-closing-tag-location": `off`,
     "react/jsx-filename-extension": [
       `error`,
@@ -168,7 +167,7 @@ module.exports = {
     "react/jsx-curly-newline": `off`,
     "react/jsx-one-expression-per-line": `off`,
     "react/jsx-props-no-spreading": `off`,
-    "react/jsx-uses-react": `error`,
+    "react/jsx-uses-react": `off`,
     "react/jsx-uses-vars": `error`,
     "react/jsx-wrap-multilines": `off`,
     "react/no-array-index-key": `off`,
