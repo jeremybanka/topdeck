@@ -1,23 +1,43 @@
+/** @jsxImportSource @emotion/react */
+import { jsx, css } from "@emotion/react"
+
 import React, { ReactElement } from "react"
-import logo from "./logo.svg"
+import {
+  Deck as _Deck,
+  Card as _Card,
+} from "../node_modules/topdeck/src/topdeck"
+
 import "./App.css"
+
+const _deck = new _Deck()
+for (let i = 0; i < 20; i++) {
+  const _card = new _Card(i)
+  // console.log(card)
+  _deck.add(_card)
+  // console.log(myDeck.cards)
+}
+
+console.log([..._deck.cards])
+_deck.shuffle()
+console.log(_deck.cards)
+
+const Card = ({ _card }): ReactElement => (
+  <div
+    css={css`
+      background-color: grey;
+    `}
+  >
+    {_card.content}
+  </div>
+)
 
 const App = (): ReactElement => (
   <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        Edit <code>src/App.tsx</code> and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn React
-      </a>
-    </header>
+    {_deck.cards.map(
+      (_card: Record<string, unknown>, idx: number): ReactElement => (
+        <Card key={idx} _card={_card} />
+      )
+    )}
   </div>
 )
 

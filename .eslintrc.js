@@ -5,7 +5,13 @@ module.exports = {
     `plugin:react/recommended`,
     `plugin:@typescript-eslint/recommended`,
   ],
-  plugins: [`prettier`, `@typescript-eslint`, `react`, `react-hooks`],
+  plugins: [
+    `prettier`,
+    `@typescript-eslint`,
+    `react`,
+    `react-hooks`,
+    `@emotion`,
+  ],
   parser: `@typescript-eslint/parser`,
   parserOptions: {
     sourceType: `module`,
@@ -141,6 +147,8 @@ module.exports = {
 
     // Begin Plugin rules
     "prettier/prettier": [`error`],
+    "@emotion/jsx-import": `error`,
+    "@emotion/pkg-renaming": `error`,
 
     // Begin React rules
     "react/jsx-indent": [
