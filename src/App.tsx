@@ -1,73 +1,97 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react"
-import { ReactElement } from "react"
+import { Dispatch, ReactElement, SetStateAction, useState } from "react"
+import ReactInputPosition, {
+  defaultState,
+  MOUSE_ACTIVATION,
+  // eslint-disable-next-line import/no-extraneous-dependencies
+} from "react-input-position-2"
+import { GlobalHotKeys, HotKeys } from "react-hotkeys"
 import { Deck as _Deck, Card as _Card } from "./lab/topdeck/src/topdeck"
+import Radikal from "./Radikal"
+import Deck from "./Deck"
 
-const _deck = new _Deck()
-for (let i = 0; i < 20; i++) {
-  const _card = new _Card(i)
-  // console.log(card)
-  _deck.add(_card)
-  // console.log(myDeck.cards)
+const globalKeyMap = {
+  SHUFFLE_AUTO: `alt+s`,
 }
 
-console.log([..._deck.cards])
-_deck.shuffle()
-console.log(_deck.cards)
+const keyMap = {
+  SHUFFLE: `s`,
+}
 
-const Card = ({ _card, subordination }): ReactElement => (
-  <div
-    className="card"
-    css={css`
-      ${subordination};
-      border-radius: 3px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      border: 1px solid black;
-      background: white;
-      height: 70px;
-      width: 50px;
-    `}
-  >
-    {_card.content}
-  </div>
-)
+const useDeck = (): [deck, Dispatch<SetStateAction<deck>>] => {
+  const newDeck = (): deck => {
+    const _deck = new _Deck()
+    for (let i = 0; i < 20; i++) {
+      const _card = new _Card(i)
+      _deck.add(_card)
+    }
+    return _deck
+  }
 
-const Deck = ({ _deck }): ReactElement => (
-  <div
-    css={css`
-      display: block;
-      position: relative;
-      width: 50px;
-      height: ${70 + 2 * _deck.cards.length}px;
-    `}
-  >
-    {_deck.cards.map(
-      (_card: Record<string, unknown>, idx: number): ReactElement => {
-        const subordination = css`
-          top: ${idx * 2}px;
-          z-index: ${idx * -1};
-        `
-        return <Card key={idx} _card={_card} subordination={subordination} />
-      }
-    )}
-  </div>
-)
+  const [current, set] = useState(newDeck())
 
-const App = (): ReactElement => (
-  <div
-    css={css`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100vw;
-      height: 100vh;
-    `}
-  >
-    <Deck _deck={_deck} />
-  </div>
-)
+  const shuffle = () => {
+    const clone: deck = new _Deck({ ...current })
+    clone.shuffle()
+    set(clone)
+  }
+  return [current, shuffle]
+}
+
+const App = (): ReactElement => {
+  const [testDeck, shuffleTest] = useDeck()
+  const [testDeck2, shuffleTest2] = useDeck()
+
+  const [inputPosition, setInputPosition] = useState(defaultState)
+
+  const onUpdate = stateChanges => {
+    if (stateChanges.active) console.log(stateChanges)
+
+    if (!stateChanges.mouseDown) {
+      setInputPosition(stateChanges)
+    }
+  }
+
+  const globalHandlers = {}
+
+  return (
+    <>
+      <GlobalHotKeys keyMap={globalKeyMap} handlers={globalHandlers} />
+      <ReactInputPosition
+        overrideState={inputPosition}
+        onUpdate={onUpdate}
+        mouseActivationMethod={MOUSE_ACTIVATION.RIGHT_CLICK}
+        trackPassivePosition
+        centerItemOnLoad
+        css={css`
+          height: 100vh;
+          width: 100vw;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          font-family: Charter;
+        `}
+      >
+        <Radikal actions={[`yo`, `wazzup`, `es mooi, ne?`]} usePosition />
+        <HotKeys keyMap={keyMap}>
+          <div
+            css={css`
+              display: flex;
+              position: relative;
+              justify-content: center;
+              align-items: center;
+              width: 100vw;
+              height: 100vh;
+            `}
+          >
+            <Deck _deck={testDeck} shuffle={shuffleTest} />
+            <Deck _deck={testDeck2} shuffle={shuffleTest2} />
+          </div>
+        </HotKeys>
+      </ReactInputPosition>
+    </>
+  )
+}
 
 export default App
