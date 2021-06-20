@@ -1,17 +1,10 @@
 module.exports = {
   extends: [
     `airbnb`,
-    `prettier`,
     `plugin:react/recommended`,
     `plugin:@typescript-eslint/recommended`,
   ],
-  plugins: [
-    `prettier`,
-    `@typescript-eslint`,
-    `react`,
-    `react-hooks`,
-    `@emotion`,
-  ],
+  plugins: [`@typescript-eslint`, `react`, `react-hooks`, `@emotion`],
   parser: `@typescript-eslint/parser`,
   parserOptions: {
     sourceType: `module`,
@@ -150,7 +143,7 @@ module.exports = {
     "semi-style": [`error`, `first`],
 
     // Begin Plugin rules
-    "prettier/prettier": [`error`],
+    // "prettier/prettier": [`error`, { endOfLine: `off` }],
     "@emotion/pkg-renaming": `error`,
 
     // Begin React rules
