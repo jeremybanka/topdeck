@@ -13,7 +13,7 @@ interface radikalOptions {
     x: number
     y: number
   }
-  usePosition: true
+  usePosition?: true
 }
 
 // function mouseMove(e) {
